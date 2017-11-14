@@ -5,12 +5,8 @@ const request = require('superagent');
 
 const CONVERSATION_API_BASE = 'https://conversation2.api.driftqa.com'
 
-app.use(bodyParser.json())
-
 const TOKEN = process.env.BOT_API_TOKEN
 const GIPHY_API_KEY = process.env.GIPHY_API_KEY
-
-app.listen(3000, () => console.log('Example app listening on port 3000!'))
 
 const MESSAGE_ID_TO_UPDATE_BY_CONVERSATION_ID = {}
 
@@ -83,6 +79,8 @@ const handleButton = (orgId, data) => {
   return getGifAndSendMessage(orgId, conversationId, conversationId, searchParam, true)
 }
 
+app.use(bodyParser.json())
+app.listen(3000, () => console.log('Example app listening on port 3000!'))
 app.post('/api', (req, res) => {
   if (req.body.type === 'new_message') {
     handleMessage(req.body.orgId, req.body.data)
