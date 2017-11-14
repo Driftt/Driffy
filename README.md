@@ -3,11 +3,16 @@ Giphy for Drift
 
 ## Deploying to Heroku
 
-`heroku create`
+### CLI install 
 
-`git push heroku master`
+1. `heroku create`
 
-`heroku config:set BOT_API_TOKEN={BOT_API_TOKEN}`
+2. `git push heroku master`
 
-`heroku config:set GIPHY_API_KEY={GIPHY_API_KEY}`
+3. `heroku config:set BOT_API_TOKEN={BOT_API_TOKEN}`
 
+4. `heroku config:set GIPHY_API_KEY={GIPHY_API_KEY}`
+
+### GUI install
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/Driftt/Driffy)
