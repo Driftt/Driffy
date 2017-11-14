@@ -1,6 +1,8 @@
 # Driffy
 Giphy for Drift
 
+Requires a Giphy API key that can be created at: https://developers.giphy.com/
+
 ## Deploying to Heroku
 
 ### CLI install 
