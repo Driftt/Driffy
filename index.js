@@ -81,7 +81,7 @@ const handleButton = (orgId, data) => {
 }
 
 app.use(bodyParser.json())
-app.listen(3000, () => console.log('Example app listening on port 3000!'))
+app.listen(process.env.PORT || 3000, () => console.log('Example app listening on port 3000!'))
 app.post('/api', (req, res) => {
   if (req.body.type === 'new_message') {
     handleMessage(req.body.orgId, req.body.data)
