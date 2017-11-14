@@ -1,4 +1,13 @@
 # Driffy
 Giphy for Drift
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/Driftt/Driffy)
+## Deploying to Heroku
+
+`heroku create`
+
+`git push heroku master`
+
+`heroku config:set BOT_API_TOKEN={BOT_API_TOKEN}`
+
+`heroku config:set GIPHY_API_KEY={GIPHY_API_KEY}`
+
