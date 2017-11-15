@@ -9,7 +9,15 @@ const CONVERSATION_API_BASE = 'https://api.driftqa.com/v1/conversations'
 const TOKEN = process.env.BOT_API_TOKEN
 const GIPHY_API_KEY = process.env.GIPHY_API_KEY
 
-const createReponseMessage = ({ orgId, giphyLink, searchParam, conversationId, editedMessageId, replace = false}) => {
+const sendMessage = (conversationId, message) => {
+  return request.post(CONVERSATION_API_BASE + `/${conversationId}/messages`)
+    .set('Content-Type', 'application/json')
+    .set(`Authorization`, `bearer ${TOKEN}`)
+    .send(message)
+    .catch(err => console.log(err))
+}
+
+const createReponseMessage = ({ orgId, giphyLink, searchParam, editedMessageId, replace = false}) => {
   const linkToSend = `<a href="${giphyLink}" rel="nofollow">${searchParam}</a>`
   const message = {
     'orgId': orgId,
@@ -36,6 +44,16 @@ const createReponseMessage = ({ orgId, giphyLink, searchParam, conversationId, e
   return replace ? Object.assign(message, { editedMessageId, editType: 'replace' }) : message
 }
 
+const createDeleteMessage = (orgId, idToDelete) => {
+  return {
+    orgId,
+    type: 'edit',
+    editedMessageId: idToDelete,
+    editType: 'delete',
+    body: ''
+  }
+}
+
 const getGifAndSendMessage = (orgId, conversationId, messageId, searchParam, editedMessageId, replace = false) => {
   return request.get(`https://api.giphy.com/v1/gifs/search?api_key=${GIPHY_API_KEY}&q=${encodeURIComponent(searchParam)}&limit=25&offset=0&rating=G&lang=en`)
     .end((err, response) => {
@@ -43,16 +61,7 @@ const getGifAndSendMessage = (orgId, conversationId, messageId, searchParam, edi
       const length = response.body.data.length
       const randomIndex = Math.floor(Math.random() * length)
       const giphyLink = response.body.data[randomIndex].url
-      return request.post(CONVERSATION_API_BASE + `/${conversationId}/messages`)
-        .set('Content-Type', 'application/json')
-        .set(`Authorization`, `bearer ${TOKEN}`)
-        .send(createReponseMessage({ orgId, giphyLink, searchParam, conversationId, editedMessageId, replace }))
-        .end((err, response) => {
-          if (err) {
-            console.log(err)
-            return
-          }
-        })
+      return sendMessage(conversationId, createReponseMessage({ orgId, giphyLink, searchParam, editedMessageId, replace }))
     })
 }
 
@@ -62,6 +71,7 @@ const handleMessage = (orgId, data) => {
     const conversationId = data.conversationId
     if (messageBody.startsWith('/giphy')) {
       const searchParam = messageBody.replace('/giphy ', '')
+      sendMessage(conversationId, createDeleteMessage(orgId, data.id))
       return getGifAndSendMessage(orgId, conversationId, conversationId, searchParam, data.id)
     }
   }
@@ -73,6 +83,7 @@ const handleButton = (orgId, data) => {
   const editedMessageId = data.sourceMessageId
   return getGifAndSendMessage(orgId, conversationId, conversationId, searchParam, editedMessageId, true)
 }
+
 
 app.use(bodyParser.json())
 app.listen(process.env.PORT || 3000, () => console.log('Example app listening on port 3000!'))
