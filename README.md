@@ -13,7 +13,7 @@ Requires a Giphy API key that can be created at: https://developers.giphy.com/
 
 3. `heroku config:set BOT_API_TOKEN={OAuth Access token}`
 
-4. `heroku config:set GIPHY_API_KEY={GIPHY_API_KEY}`
+4. `heroku config:set GIPHY_API_KEY={Giphy API key}`
 
 ### GUI install
 
