@@ -29,7 +29,7 @@ const createReponseMessage = ({ orgId, giphyLink, searchParam, editedMessageId, 
       'type': 'reply',
       'style': 'primary',
       'reaction': {
-        type: 'delete'
+        'type': 'delete'
       }
     }, {
       'label': 'Shuffle',
