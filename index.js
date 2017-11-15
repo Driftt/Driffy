@@ -56,13 +56,13 @@ const createDeleteMessage = (orgId, idToDelete) => {
 
 const getGifAndSendMessage = (orgId, conversationId, messageId, searchParam, editedMessageId, replace = false) => {
   return request.get(`https://api.giphy.com/v1/gifs/search?api_key=${GIPHY_API_KEY}&q=${encodeURIComponent(searchParam)}&limit=25&offset=0&rating=G&lang=en`)
-    .end((err, response) => {
-      console.log(response.body.data.length)
+    .then((response) => {
       const length = response.body.data.length
       const randomIndex = Math.floor(Math.random() * length)
       const giphyLink = response.body.data[randomIndex].url
       return sendMessage(conversationId, createReponseMessage({ orgId, giphyLink, searchParam, editedMessageId, replace }))
     })
+    .catch(err => console.log(err))
 }
 
 const handleMessage = (orgId, data) => {
