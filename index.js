@@ -4,7 +4,7 @@ const bodyParser = require('body-parser')
 const request = require('superagent');
 
 
-const CONVERSATION_API_BASE = 'https://conversation2.api.driftqa.com'
+const CONVERSATION_API_BASE = 'https://api.driftqa.com/v1/conversations'
 
 const TOKEN = process.env.BOT_API_TOKEN
 const GIPHY_API_KEY = process.env.GIPHY_API_KEY
@@ -47,7 +47,7 @@ const getGifAndSendMessage = (orgId, conversationId, messageId, searchParam, rep
     .end((err, response) => {
       const randomIndex = Math.floor(Math.random() * 25)
       const giphyLink = response.body.data[randomIndex].url
-      return request.post(CONVERSATION_API_BASE + `/open/conversations/${conversationId}/messages`)
+      return request.post(CONVERSATION_API_BASE + `/${conversationId}/messages`)
         .set('Content-Type', 'application/json')
         .set(`Authorization`, `bearer ${TOKEN}`)
         .send(createReponseMessage({ orgId, giphyLink, searchParam, conversationId, replace }))
