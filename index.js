@@ -33,7 +33,7 @@ const createReponseMessage = ({ orgId, giphyLink, searchParam, editedMessageId, 
       }
     }, {
       'label': 'Shuffle',
-      'value': searchParam,
+      'value': `driffy-${searchParam}`,
       'type': 'action'
     }, {
       'label': 'Cancel',
@@ -78,8 +78,12 @@ const handleMessage = (orgId, data) => {
 }
 
 const handleButton = (orgId, data) => {
+  const buttonValue = data.button.value
+  if (!buttonValue.startsWith('driffy-')) {
+    return
+  }
+  const searchParam = buttonValue.replace('driffy-', '')
   const conversationId = data.conversationId
-  const searchParam = data.button.value
   const editedMessageId = data.sourceMessageId
   return getGifAndSendMessage(orgId, conversationId, conversationId, searchParam, editedMessageId, true)
 }
