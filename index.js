@@ -38,7 +38,7 @@ const createReponseMessage = ({ orgId, giphyLink, searchParam, editedMessageId, 
     }, {
       'label': 'Cancel',
       'value': 'cancel',
-      'type': 'action', // switch to noop
+      'type': 'noop', // switch to noop
     },]
   }
   return replace ? Object.assign(message, { editedMessageId, editType: 'replace' }) : message
