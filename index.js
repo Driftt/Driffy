@@ -4,7 +4,7 @@ const bodyParser = require('body-parser')
 const request = require('superagent');
 
 
-const CONVERSATION_API_BASE = 'https://driftapi.com/v1/conversations'
+const CONVERSATION_API_BASE = process.env.QA ? 'https://driftapiqa.com/v1/conversations' : 'https://driftapi.com/v1/conversations'
 
 const TOKEN = process.env.BOT_API_TOKEN
 const GIPHY_API_KEY = process.env.GIPHY_API_KEY
